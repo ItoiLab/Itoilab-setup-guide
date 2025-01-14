@@ -71,13 +71,18 @@ python --version
 
 ## Git のインストール
 
+GitはGithubと連携するために入れます。
+上手に使うとデータのバックアップ、バージョンの管理を行えます。
+
 1. [Git公式サイト](https://git-scm.com/downloads)にアクセス
 2. 「Windows」をクリックしてインストーラーをダウンロード
 3. インストーラーを実行し、以下の設定を推奨：
-   - エディタの選択画面で「Visual Studio Code」を選択
-   - 「Git from the command line and also from 3rd-party software」を選択
-   - 「Use Windows' default console window」を選択
-   - その他はデフォルト設定のまま
+   - **Default Editor の設定はVisual Studio Codeにするのがおすすめ**
+    ![alt text](img/GitProcess2.png)
+   - **default branch nameがmasterならばmainに変えてください**
+    ![alt text](img/GitProcess.png)
+   - **その他はデフォルト設定のまま**
+4. PCを再起動
 
 ### インストールの確認
 
@@ -85,8 +90,12 @@ python --version
 ```
 git --version
 ```
+バージョン情報が出ればインストール成功です。
 
 ## GitHub アカウントの設定
+
+GitHubでは世界中の人がいろいろなプログラムを公開しています。
+先ほどインストールしたGitを使うことで、これらのプログラムをまとめてPCにダウロードできます。
 
 1. [GitHub](https://github.com/)にアクセス
 2. 「Sign up」をクリックして新規アカウントを作成
@@ -110,7 +119,7 @@ git config --global user.email "あなたのメールアドレス"
 ssh-keygen -t ed25519 -C "あなたのメールアドレス"
 ```
 2. 保存場所の指定を求められたら、Enterキーを押して既定の場所に保存
-3. パスフレーズの入力を求められたら、任意のパスフレーズを設定（空でもOK）
+3. **パスフレーズの入力を求められたら、任意のパスフレーズを設定（何も入力せずEnterにするのがおすすめです。後で忘れてしまうので）**
 
 ### GitHubへの公開鍵の登録
 
