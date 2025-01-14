@@ -23,6 +23,8 @@
 
 ## Visual Studio Code のインストール
 
+![alt text](img/VScode.png)
+
 Visual Studio Code（VSCode）は、プログラミングに適した高機能なテキストエディタです。
 
 1. [Visual Studio Code のダウンロードページ](https://code.visualstudio.com/)にアクセス
@@ -44,12 +46,19 @@ VSCode起動後、以下の拡張機能をインストールすることを推�
 
 ## Python のインストール
 
+Pythonは記述しやすく科学計算に適した機能が充実したプログラミング言語です
+
+![alt text](img/Python.png)
+
 1. [Python公式サイト](https://www.python.org/downloads/)にアクセス
-2. 「Download Python 3.x.x」ボタンをクリック（最新の安定版）
+2. 「Download Python 3.x.x」ボタンをクリック（最新のLTS、安定版がおすすめ）
 3. ダウンロードされたインストーラーを実行
 4. インストール時の重要なオプション：
-   - 「Add Python 3.x to PATH」にチェックを入れる
+   - **「Add Python 3.x to PATH」にチェックを入れる**
+  (簡単にPythonを呼び出して実行することができるようになります。大事です。)
    - 「Install Now」をクリック
+    ![alt text](img/PythonProcess.png)
+5. PCを再起動する。(先ほど通したPATHをPCが読み込んでくれます。)
 
 ### インストールの確認
 
