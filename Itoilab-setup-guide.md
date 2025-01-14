@@ -74,6 +74,8 @@ python --version
 GitはGithubと連携するために入れます。
 上手に使うとデータのバックアップ、バージョンの管理を行えます。
 
+![alt text](img/Git.png)
+
 1. [Git公式サイト](https://git-scm.com/downloads)にアクセス
 2. 「Windows」をクリックしてインストーラーをダウンロード
 3. インストーラーを実行し、以下の設定を推奨：
