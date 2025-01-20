@@ -20,6 +20,12 @@
   - [トラブルシューティング](#トラブルシューティング)
     - [よくある問題と解決方法](#よくある問題と解決方法)
     - [参考](#参考)
+  - [$\\LaTeX$の導入](#latexの導入)
+    - [texliveのインストール方法](#texliveのインストール方法)
+    - [latexmkの設定](#latexmkの設定)
+    - [VScode内での環境構築](#vscode内での環境構築)
+      - [ユーザースニペット](#ユーザースニペット)
+      - [setting.json](#settingjson)
 
 ## Visual Studio Code のインストール
 
@@ -163,3 +169,209 @@ ssh -T git@github.com
 ### 参考
 非常に参考になるサイトです。必要になったら参照するのがよいと思います。
 - [計算科学のためのWindowsセットアップ](https://zenn.dev/ohno/books/356315a0e6437c)
+
+## $\LaTeX$の導入
+### texliveのインストール方法
+https://qiita.com/alpaca-honke/items/f30a2d04eedaa3c36a21
+
+texliveのインストールはこれを見ながらやればよい。Windowsの章を参照してlatexをインストールする。
+
+### latexmkの設定
+これも先ほどと同様に、この記事を見て`.latexmkrc`ファイルを作り中身を書けばよい。
+
+https://qiita.com/alpaca-honke/items/f30a2d04eedaa3c36a21#latexmkの設定
+
+完全な引用になってしまうが、中身を示しておくと、
+```.latexmkrc
+#!/usr/bin/env perl
+# 先頭行は、Linux用のシバンなので、Windowsでは削除しても構いません。
+
+# 通常の LaTeX ドキュメント用のコマンド
+# 今回はupLaTeXを設定してあります。
+$latex = 'uplatex %O -kanji=utf8 -no-guess-input-enc -synctex=1 -interaction=nonstopmode %S'; 
+# pdfLaTeX 用のコマンド 
+$pdflatex = 'pdflatex %O -synctex=1 -interaction=nonstopmode %S'; 
+# LuaLaTeX 用のコマンド 
+$lualatex = 'lualatex %O -synctex=1 -interaction=nonstopmode %S'; 
+# XeLaTeX 用のコマンド 
+$xelatex = 'xelatex %O -no-pdf -synctex=1 -shell-escape -interaction=nonstopmode %S'; 
+# Biber, BibTeX 用のコマンド 
+$biber = 'biber %O --bblencoding=utf8 -u -U --output_safechars %B'; 
+$bibtex = 'upbibtex %O %B'; 
+# makeindex 用のコマンド 
+$makeindex = 'upmendex %O -o %D %S'; 
+# dvipdf のコマンド 
+$dvipdf = 'dvipdfmx %O -o %D %S'; 
+# dvips のコマンド 
+$dvips = 'dvips %O -z -f %S | convbkmk -u > %D'; 
+$ps2pdf = 'ps2pdf.exe %O %S %D'; 
+  
+# $pdf_mode ...PDF の作成方法を指定するオプション 
+# 0: $latex で .tex -> .dvi するだけ
+# 1: $pdflatex で .tex -> .pdf (pdflatexは英文にしか使えない)
+# 2: $latex で .tex -> .dvi / $dvips で .dvi -> .ps / $ps2pdf で .ps -> PDF
+# 3: $latex で .tex -> .dvi / $dvipdf で .dvi -> PDF 
+# 4: $lualatex で .tex -> PDF
+# 5: $xelatex で .tex -> .xdv / $xdvipdfmx で .xdv -> PDF
+# lualatexしか使わないなら以下行のコメント（#）を外すが、他も使いそうならこのまま
+# $pdf_mode = 4; 
+  
+# PDFビューワ の設定 
+# "start %S": .pdf の規定のソフトで表示（Windowsのみ）
+# Linuxの場合、"evince %S" を指定してください
+$pdf_previewer = "start %S";
+```
+である。最後の行のpdf_previewerはたぶん設定しなくてよい。
+
+### VScode内での環境構築
+#### ユーザースニペット
+いい感じのやつを引っ張ってきて使えばよい。ご自由にどうぞ
+#### setting.json
+設定ファイルで、`.tex`ファイルをどの順にコンパイルするかなどを指定する。石川は昔から下の設定でvscodeをセットアップしている。
+```json
+{
+    "workbench.colorTheme": "GitHub Light",
+    "workbench.iconTheme": "material-icon-theme",
+    "jupyter.askForKernelRestart": false,
+    "qiita-markdown-preview.status": "enable", 
+    "latex-workshop.latex.tools": [
+        {
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pdf",
+                "%DOC%"
+            ],
+            "name": "latexmk"
+        },
+        {
+            "command": "pdflatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ],
+            "name": "pdflatex",
+            },
+            {
+                "command": "bibtex",
+                "args": [
+                    "%DOCFILE%"
+                ],
+                "name": "bibtex",
+            },
+            {
+                "command": "ptex2pdf",
+                "args": [
+                    "-interaction=nonstopmode",
+                    "-l",
+                    "-ot",
+                    "-kanji=utf8 -synctex=1",
+                    "%DOC%.tex"
+                ],
+                "name":"ptex2pdf",
+            },
+           {
+                "command": "ptex2pdf",
+                "args": [
+                    "-l",
+                    "-u",
+                    "-ot",
+                    "-kanji=utf8 -synctex=1",
+                    "%DOC%"
+                ],
+                "name":"ptex2pdf (uplatex)",
+            },
+            {
+                "command": "pbibtex",
+                "args": [
+                    "-kanji=utf8",
+                    "%DOCFILE%"
+                ],
+                "name": "pbibtex",
+            }
+     ],
+     "latex-workshop.latex.recipes": [
+     {
+        "name": "ptex2pdf",
+        "tools": [
+            "ptex2pdf"
+        ]
+     },
+     {
+        "name": "ptex2pdf -> pbibtex -> ptex2pdf*2",
+        "tools": [
+            "ptex2pdf",
+            "pbibtex",
+            "ptex2pdf",
+            "ptex2pdf"
+        ]
+     },
+     {
+        "name": "pdflatex -> bibtex -> pdflatex*2",
+        "tools": [
+            "pdflatex",
+            "bibtex",
+            "pdflatex",
+            "pdflatex"
+        ]
+     },
+     {
+        "name": "latexmk",
+        "tools": [
+            "latexmk"
+        ]
+     },
+     {
+        "name": "pdflatex",
+        "tools": [
+            "pdflatex"
+        ]
+     },
+     {
+        "name": "ptex2pdf (uplatex)",
+        "tools": [
+            "ptex2pdf (uplatex)"
+        ]
+     },
+     {
+        "name": "ptex2pdf (uplatex) -> pbibtex -> ptex2pdf (uplatex) *2",
+        "tools": [
+            "ptex2pdf (uplatex)",
+            "pbibtex",
+            "ptex2pdf (uplatex)",
+            "ptex2pdf (uplatex)"
+        ]
+     },
+     ],
+     
+     
+     "latex-workshop.latexindent.path": "C:\\texlive\\2024\\bin\\windows\\latexindent.exe",
+     "latex-workshop.view.pdf.viewer": "tab",
+     
+     "[tex]": {
+        // スニペット補完中にも補完を使えるようにする
+        "editor.suggest.snippetsPreventQuickSuggestions": false,
+        // インデント幅を2にする
+        "editor.tabSize": 2
+     },
+     
+     "[latex]": {
+        // スニペット補完中にも補完を使えるようにする
+        "editor.suggest.snippetsPreventQuickSuggestions": false,
+        // インデント幅を2にする
+        "editor.tabSize": 2
+     },  
+     
+     "[bibtex]": {
+        // インデント幅を2にする
+        "editor.tabSize": 2
+     },
+}
+```
+ここで問題になるのが、`"latex-workshop.latexindent.path"`である。一番最初に引用したサイトに載っている方法でlatexをインストールするとlatexindent.exeがインストールされないので、もう一度Tex Live Shellを立ち上げてlatexindentをインストールする必要がある。
+
+ほかにも、`jlisings`など様々なパッケージがインストールされていないことが確認されている。（その代わり最初のインストールは死ぬほど早い（遅い）。なので、コンパイルできなくなったら適宜logを見て必要なパッケージが不足していればインストールする必要がある。
