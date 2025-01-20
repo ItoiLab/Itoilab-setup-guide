@@ -50,6 +50,7 @@ VSCode起動後、以下の拡張機能をインストールすることを推�
 2. Pylance
 3. Git Graph
 4. Japanese Language Pack for VS Code（日本語表示が必要な場合）
+5. Jupyter(直感的にコードを記述・実行するのに便利)
 
 ## Python のインストール
 
