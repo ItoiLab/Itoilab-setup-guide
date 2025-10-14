@@ -227,9 +227,19 @@ $pdf_previewer = "start %S";
 である。最後の行のpdf_previewerはたぶん設定しなくてよい。
 
 ### VScode内での環境構築
-#### ユーザースニペット
-いい感じのやつを引っ張ってきて使えばよい。ご自由にどうぞ
-#### setting.json
+texをビルドするだけならばここまでで十分ですが、この先をやると快適にtexをかけます。次のメリットがあります
+- ファイルセーブだけでtex文書をビルドできる
+- synctex機能(ビルドされたPDFファイルをctrl+クリックするとtexにおけるその部分に飛ぶことができる)
+これらがあると非常に便利なのでおすすめです。
+#### latex workshop拡張機能のインストール
+<img width="592" height="161" alt="image" src="https://github.com/user-attachments/assets/befea5c5-d871-405c-8fcb-67f4895172cc" />
+
+この拡張機能をインストールします。
+#### VScodeのsetting.json書き換え
+VScodeのコマンドパレットを開きます。(ctrl+shift+p)
+
+ここに Open User settingsと打ち込んでセッティングファイルを開きます。(このファイルはVScode全体の設定を決定しています。)
+
 設定ファイルで、`.tex`ファイルをどの順にコンパイルするかなどを指定する。石川は昔から下の設定でvscodeをセットアップしている。
 ```json
 {
@@ -378,5 +388,6 @@ $pdf_previewer = "start %S";
 ここで問題になるのが、`"latex-workshop.latexindent.path"`である。一番最初に引用したサイトに載っている方法でlatexをインストールするとlatexindent.exeがインストールされないので、もう一度Tex Live Shellを立ち上げてlatexindentをインストールする必要がある。
 
 ほかにも、`jlisings`など様々なパッケージがインストールされていないことが確認されている。（その代わり最初のインストールは死ぬほど早い（遅い）。なので、コンパイルできなくなったら適宜logを見て必要なパッケージが不足していればインストールする必要がある。
+
 
 
